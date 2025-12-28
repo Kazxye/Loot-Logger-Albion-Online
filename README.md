@@ -80,11 +80,3 @@ ao-loot-logger/
 2. Selecione o idioma desejado (PT-BR ou EN-US)
 3. Clique em "Salvar"
 
-
-## Suporte
-
-Para suporte tecnico ou aquisicao de licencas, entre em contato com o desenvolvedor.
-
-## Autor
-
-Desenvolvido por Kazys
