@@ -1,6 +1,6 @@
 # Loot Logger
 
-Loot Logger para Albion Online. Captura e exibe em tempo real todos os itens coletados por jogadores, com suporte a filtros, exportacao e notificacoes Discord.
+Loot Logger para Albion Online. Captura e exibe em tempo real todos os itens coletados por jogadores, com suporte a filtros, exportação e notificações Discord.
 
 ## Requisitos
 
@@ -9,15 +9,15 @@ Loot Logger para Albion Online. Captura e exibe em tempo real todos os itens col
 - Npcap (para captura de pacotes)
 - Conexao com internet
 
-## Instalacao
+## Instalação
 
 ### 1. Instalar Npcap
 
 Baixe e instale o Npcap em: https://npcap.com/#download
 
-Durante a instalacao, marque a opcao "Install Npcap in WinPcap API-compatible Mode".
+Durante a instalação, marque a opção "Install Npcap in WinPcap API-compatible Mode".
 
-### 2. Instalar dependencias Python
+### 2. Instalar dependências Python
 
 ```bash
 pip install -r requirements.txt
@@ -29,24 +29,24 @@ pip install -r requirements.txt
 python main_gui.py
 ```
 
-## Dependencias
+## Dependências
 
-- customtkinter - Interface grafica moderna
+- customtkinter - Interface gráfica moderna
 - scapy - Captura de pacotes de rede
-- requests - Requisicoes HTTP
-- Pillow - Manipulacao de imagens
+- requests - Requisições HTTP
+- Pillow - Manipulação de imagens
 
 ## Estrutura do Projeto
 
 ```
 ao-loot-logger/
-├── main_gui.py          # Ponto de entrada da aplicacao
+├── main_gui.py          # Ponto de entrada da aplicação
 ├── main.py              # Versao CLI (sem interface)
-├── requirements.txt     # Dependencias
-├── license.dat          # Licenca ativada (gerado automaticamente)
+├── requirements.txt     # Dependências
+├── license.dat          # Licença ativada (gerado automaticamente)
 ├── core/                # Captura e parsing de pacotes
 ├── handlers/            # Processamento de eventos do jogo
-├── services/            # Servicos (itens, discord, licencas)
+├── services/            # Serviços (itens, discord, licencas)
 ├── storage/             # Armazenamento em memoria
 ├── models/              # Modelos de dados
 ├── gui/                 # Interface grafica
@@ -59,30 +59,27 @@ ao-loot-logger/
 - Filtro por tier (T4-T8)
 - Filtro por jogador
 - Filtro de itens raros
-- Notificacoes Discord via webhook
-- Exportacao para JSON e CSV
+- Notificações Discord via webhook
+- Exportação para JSON e CSV
 - Suporte a idiomas (PT-BR / EN-US)
-- Sistema de licencas com HWID
+- Sistema de licenças com HWID
 
-## Configuracao
+## Configuração
 
 ### Discord Webhook
 
-1. Clique no botao de configuracoes (engrenagem)
+1. Clique no botão de configurações (engrenagem)
 2. Cole a URL do webhook do Discord
-3. Ative a opcao "Ativado"
+3. Ative a opção "Ativado"
 4. Clique em "Testar" para verificar
 5. Clique em "Salvar"
 
 ### Idioma
 
-1. Clique no botao de configuracoes
+1. Clique no botão de configurações
 2. Selecione o idioma desejado (PT-BR ou EN-US)
 3. Clique em "Salvar"
 
-## Licenca
-
-Este software requer uma licenca valida para funcionamento. Entre em contato com o desenvolvedor para adquirir uma licenca.
 
 ## Suporte
 
@@ -90,4 +87,4 @@ Para suporte tecnico ou aquisicao de licencas, entre em contato com o desenvolve
 
 ## Autor
 
-Desenvolvido por Kazz
+Desenvolvido por Kazys
