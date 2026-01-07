@@ -1,0 +1,8 @@
+# Dependências do AO Loot Logger
+customtkinter>=5.2.0
+scapy>=2.5.0
+requests>=2.31.0
+pillow>=10.0.0
+
+# Para build (opcional)
+# pip install nuitka
