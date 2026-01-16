@@ -551,6 +551,28 @@
             from { transform: translateY(-10px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+        
+        /* Silver coin shine effect */
+        .silver-coin {
+            position: relative;
+            display: inline-flex;
+        }
+        
+        .silver-coin::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: coinShine 3s ease-in-out infinite;
+        }
+        
+        @keyframes coinShine {
+            0%, 100% { left: -100%; }
+            50% { left: 150%; }
+        }
     </style>
 </head>
 <body class="bg-dark-bg text-dark-600 min-h-screen" x-data="dashboard()">
@@ -808,9 +830,23 @@
                         <!-- Total Value -->
                         <div class="stat-card px-4 py-3 rounded-xl border border-amber-500/30 bg-gradient-to-r from-amber-500/5 to-transparent">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="currentColor">
-                                        <circle cx="12" cy="12" r="10"/>
+                                <div class="w-10 h-10 bg-gradient-to-br from-amber-400/30 to-amber-600/20 rounded-lg flex items-center justify-center shadow-inner">
+                                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none">
+                                        <!-- Outer ring -->
+                                        <circle cx="12" cy="12" r="10" fill="url(#silverGradient)" stroke="#d97706" stroke-width="1.5"/>
+                                        <!-- Inner detail -->
+                                        <circle cx="12" cy="12" r="7" fill="none" stroke="#fbbf24" stroke-width="0.5" opacity="0.5"/>
+                                        <!-- S symbol -->
+                                        <text x="12" y="16" text-anchor="middle" fill="#78350f" font-size="10" font-weight="bold" font-family="serif">S</text>
+                                        <!-- Shine effect -->
+                                        <ellipse cx="9" cy="9" rx="3" ry="2" fill="white" opacity="0.3" transform="rotate(-30 9 9)"/>
+                                        <defs>
+                                            <linearGradient id="silverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" style="stop-color:#fcd34d"/>
+                                                <stop offset="50%" style="stop-color:#f59e0b"/>
+                                                <stop offset="100%" style="stop-color:#d97706"/>
+                                            </linearGradient>
+                                        </defs>
                                     </svg>
                                 </div>
                                 <div>
@@ -927,17 +963,24 @@
                                                   x-text="loot.tier.display || '-'"></span>
                                         </td>
                                         <td class="px-4 py-3 text-right">
-                                            <div class="flex items-center justify-end gap-1">
+                                            <div class="flex items-center justify-end gap-1.5">
                                                 <template x-if="loot.estimatedPrice !== undefined">
                                                     <span class="font-mono text-sm text-amber-400 font-medium" 
                                                           x-text="loot.estimatedPrice > 0 ? formatSilver(loot.estimatedPrice * loot.quantity) : '-'"></span>
                                                 </template>
                                                 <template x-if="loot.estimatedPrice === undefined">
-                                                    <span class="text-dark-400 text-xs">...</span>
+                                                    <span class="text-dark-400 text-xs animate-pulse">...</span>
                                                 </template>
                                                 <template x-if="loot.estimatedPrice > 0">
-                                                    <svg class="w-3.5 h-3.5 text-amber-400" viewBox="0 0 24 24" fill="currentColor">
-                                                        <circle cx="12" cy="12" r="10"/>
+                                                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none">
+                                                        <circle cx="12" cy="12" r="10" fill="url(#coinGrad)" stroke="#d97706" stroke-width="1"/>
+                                                        <text x="12" y="16" text-anchor="middle" fill="#78350f" font-size="10" font-weight="bold" font-family="serif">S</text>
+                                                        <defs>
+                                                            <linearGradient id="coinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" style="stop-color:#fcd34d"/>
+                                                                <stop offset="100%" style="stop-color:#f59e0b"/>
+                                                            </linearGradient>
+                                                        </defs>
                                                     </svg>
                                                 </template>
                                             </div>
@@ -1083,7 +1126,8 @@
                 },
                 
                 get totalEstimatedValue() {
-                    return this.loots.reduce((total, loot) => {
+                    // Usa filteredLoots para recalcular quando filtros mudam
+                    return this.filteredLoots.reduce((total, loot) => {
                         if (loot.estimatedPrice && loot.estimatedPrice > 0) {
                             return total + (loot.estimatedPrice * loot.quantity);
                         }
@@ -1141,12 +1185,22 @@
                         this.connected = false;
                     });
                     
-                    this.socket.on('new_loot', (loot) => {
+                    this.socket.on('new_loot', async (loot) => {
                         console.log('[WS] Novo loot:', loot);
+                        
+                        // Add loot with placeholder for price
+                        loot.estimatedPrice = undefined;
                         this.loots.unshift(loot);
                         
-                        // Fetch price for new item
-                        this.fetchItemPrice(loot);
+                        // Fetch price and update reactively
+                        const price = await this.getItemPrice(loot.item_id);
+                        
+                        // Update the first item (the one we just added)
+                        if (this.loots.length > 0 && this.loots[0].id === loot.id) {
+                            this.loots[0] = { ...this.loots[0], estimatedPrice: price };
+                            // Force reactivity
+                            this.loots = [...this.loots];
+                        }
                         
                         // Update players list
                         if (!this.players.includes(loot.looted_by.name) && !loot.looted_by.name.startsWith('@')) {
@@ -1458,7 +1512,12 @@
                 // Fetch price for a single loot item
                 async fetchItemPrice(loot) {
                     const price = await this.getItemPrice(loot.item_id);
-                    loot.estimatedPrice = price;
+                    
+                    // Find loot in array and update with reactivity
+                    const index = this.loots.findIndex(l => l.id === loot.id);
+                    if (index !== -1) {
+                        this.loots[index] = { ...this.loots[index], estimatedPrice: price };
+                    }
                 },
                 
                 // Fetch prices for multiple loots (batch)
@@ -1473,11 +1532,12 @@
                         await Promise.all(batch.map(async (itemId) => {
                             const price = await this.getItemPrice(itemId);
                             
-                            // Update all loots with this item ID
-                            loots.forEach(loot => {
+                            // Update all loots with this item ID (with reactivity)
+                            this.loots = this.loots.map(loot => {
                                 if (loot.item_id === itemId) {
-                                    loot.estimatedPrice = price;
+                                    return { ...loot, estimatedPrice: price };
                                 }
+                                return loot;
                             });
                         }));
                         
