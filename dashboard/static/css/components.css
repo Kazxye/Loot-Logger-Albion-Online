@@ -1,0 +1,450 @@
+/**
+ * Components CSS - Reusable UI Components
+ * Loot Logger Dashboard by Kazz
+ */
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ========================================
+   ODOMETER ANIMATION
+   ======================================== */
+.odometer {
+    display: inline-block;
+}
+
+.odometer-animate {
+    animation: countUp 0.3s ease-out;
+}
+
+@keyframes countUp {
+    from { 
+        transform: translateY(-10px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0); 
+        opacity: 1; 
+    }
+}
+
+/* ========================================
+   SILVER COIN ICON
+   ======================================== */
+.coin-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.coin-icon-large {
+    width: 24px;
+    height: 24px;
+}
+
+/* ========================================
+   SEARCH INPUT
+   ======================================== */
+.search-wrapper {
+    position: relative;
+}
+
+.search-wrapper svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--dark-400);
+    pointer-events: none;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding-left: 40px;
+}
+
+/* ========================================
+   TOGGLE SWITCH
+   ======================================== */
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: var(--dark-200);
+    border-radius: 12px;
+    transition: all var(--transition-base);
+}
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: all var(--transition-base);
+}
+
+.toggle input:checked + .toggle-switch {
+    background: var(--primary-500);
+}
+
+.toggle input:checked + .toggle-switch::after {
+    transform: translateX(20px);
+}
+
+.toggle input {
+    display: none;
+}
+
+.toggle-label {
+    font-size: 0.875rem;
+    color: var(--dark-500);
+}
+
+/* ========================================
+   PLAYER LIST
+   ======================================== */
+.player-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.player-list-empty {
+    padding: 0.75rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--dark-400);
+    font-style: italic;
+}
+
+/* ========================================
+   LOADING SPINNER
+   ======================================== */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--dark-200);
+    border-top-color: var(--primary-500);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.spinner-large {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+}
+
+/* ========================================
+   TOOLTIPS
+   ======================================== */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem 0.75rem;
+    background: var(--dark-elevated);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    color: var(--dark-600);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+    pointer-events: none;
+    z-index: 100;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+    
+    .header-stats {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .stat-card {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .stat-card-content p:last-child {
+        font-size: 1rem;
+    }
+}
+
+/* ========================================
+   SERVER SELECTOR
+   ======================================== */
+.server-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--dark-elevated);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-lg);
+    padding: 0.375rem;
+}
+
+.server-selector-label {
+    font-size: 0.75rem;
+    color: var(--dark-400);
+    padding-left: 0.5rem;
+}
+
+.server-btn {
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--dark-400);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.server-btn:hover {
+    color: var(--dark-600);
+    background: var(--dark-100);
+}
+
+.server-btn.active {
+    color: white;
+    background: var(--primary-600);
+}
+
+/* ========================================
+   DISCORD BUTTON
+   ======================================== */
+.discord-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: var(--dark-elevated);
+    border: 1px solid var(--dark-border);
+    color: var(--dark-400);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.discord-btn:hover {
+    border-color: #5865F2;
+    color: #5865F2;
+    background: rgba(88, 101, 242, 0.1);
+}
+
+.discord-btn.configured {
+    border-color: rgba(88, 101, 242, 0.5);
+    color: #5865F2;
+}
+
+/* ========================================
+   MODAL
+   ======================================== */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-2xl);
+    width: 100%;
+    max-width: 480px;
+    margin: 1rem;
+    animation: fadeInUp 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--dark-border);
+}
+
+.modal-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+}
+
+.modal-header h3 svg {
+    color: #5865F2;
+}
+
+.modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: none;
+    color: var(--dark-400);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+}
+
+.modal-close:hover {
+    background: var(--dark-elevated);
+    color: white;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-body label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--dark-500);
+    margin-bottom: 0.5rem;
+}
+
+.modal-body input[type="text"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+}
+
+.modal-body .hint {
+    font-size: 0.75rem;
+    color: var(--dark-400);
+    margin-top: 0.5rem;
+}
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--dark-border);
+    background: rgba(24, 24, 27, 0.5);
+    border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
+}
+
+.modal-result {
+    flex: 1;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-md);
+}
+
+.modal-result.success {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success);
+}
+
+.modal-result.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+}
+
+/* Modal buttons */
+.btn-secondary {
+    background: var(--dark-elevated);
+    color: var(--dark-500);
+    border: 1px solid var(--dark-border);
+}
+
+.btn-secondary:hover {
+    background: var(--dark-100);
+    color: var(--dark-600);
+}
+
+.btn-primary {
+    background: var(--primary-600);
+    color: white;
+    border: 1px solid var(--primary-600);
+}
+
+.btn-primary:hover {
+    background: var(--primary-700);
+}
+
+.btn-discord {
+    background: #5865F2;
+    color: white;
+    border: 1px solid #5865F2;
+}
+
+.btn-discord:hover {
+    background: #4752C4;
+}
+
+.btn-discord:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
