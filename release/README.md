@@ -4,7 +4,7 @@
 
 <br/>
 
-![Version](https://img.shields.io/badge/version-3.1-a855f7.svg?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-3.2-a855f7.svg?style=for-the-badge)
 ![Python](https://img.shields.io/badge/python-3.10+-3776ab.svg?style=for-the-badge&logo=python&logoColor=white)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6.svg?style=for-the-badge&logo=windows&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-22c55e.svg?style=for-the-badge)
@@ -37,20 +37,20 @@ O **Loot Logger** é uma ferramenta open-source que captura pacotes de rede do A
 
 ## ✨ Features
 
-### 🌐 Dashboard Web (v3.1)
+### 🌐 Dashboard Web (v3.2)
 
 | Feature | Descrição |
 |---------|-----------|
 | **Tempo Real** | Atualização instantânea via WebSocket |
 | **Imagens dos Itens** | Carregadas da API oficial do Albion |
 | **Estimativa de Silver** | Preços via Albion Data Project API |
+| **Seletor de Servidor** | Americas, Europe, Asia |
+| **Discord Webhook** | Notificações automáticas de itens raros |
 | **Filtros Avançados** | Tier, categoria, jogador, busca, apenas raros |
-| **Valor por Filtro** | Total recalcula ao filtrar (ex: valor por jogador) |
+| **Valor por Filtro** | Total recalcula ao filtrar |
+| **Cores de Tier** | T4 🔵 T5 🔴 T6 🟠 T7 🟡 T8 ⚪ |
 | **Cores de Encantamento** | .1 🟢 .2 🔵 .3 🟣 .4 🟡 |
-| **Splash Screen** | Animação moderna com partículas e progress bar |
-| **Tooltips** | Preview ampliado do item ao passar o mouse |
-| **Odômetro** | Animação nos contadores de estatísticas |
-| **Hover Effects** | Efeitos visuais modernos na interface |
+| **Splash Inteligente** | Pula splash ao dar F5 |
 
 ### 🖥️ GUI Desktop
 
@@ -82,22 +82,23 @@ O **Loot Logger** é uma ferramenta open-source que captura pacotes de rede do A
 
 ## 🎨 Preview
 
-### Cores de Encantamento
+### Cores dos Tiers (Filtros)
 
-| Encantamento | Cor | Hex | Exemplo |
-|:------------:|:---:|:---:|:-------:|
-| .0 (base) | ⚪ Cinza | `#94a3b8` | T6 |
-| .1 | 🟢 Verde | `#22c55e` | T6.1 |
-| .2 | 🔵 Azul | `#3b82f6` | T6.2 |
-| .3 | 🟣 Roxo | `#a855f7` | T6.3 |
-| .4 | 🟡 Dourado | `#eab308` | T6.4 |
+| Tier | Cor | Estilo |
+|:----:|:---:|:------:|
+| T4 | 🔵 Azul | Glass |
+| T5 | 🔴 Vermelho | Glass |
+| T6 | 🟠 Laranja | Glass |
+| T7 | 🟡 Amarelo | Glass |
+| T8 | ⚪ Branco | Glass |
 
-### Ícone de Silver
+### Cores na Tabela
 
-O dashboard utiliza um ícone de moeda detalhado com:
-- Gradiente dourado
-- Letra "S" central
-- Borda destacada
+Os itens na tabela mostram **duas informações de cor**:
+- **Fundo**: Cor do tier base (T4 azul, T5 vermelho, etc)
+- **Borda esquerda**: Cor do encantamento (.1 verde, .2 azul, .3 roxo, .4 dourado)
+
+Exemplo: Um item **T4.3** terá fundo azul (T4) com borda roxa (.3)
 
 ---
 
@@ -167,42 +168,33 @@ python main_gui.py
 
 ---
 
-## 💰 API de Preços (Silver)
+## 🌎 Servidores de Preço
 
-O Dashboard utiliza a **Albion Data Project API** para estimar valores.
+O Dashboard permite escolher o servidor para busca de preços:
 
-### Endpoint
-```
-https://west.albion-online-data.com/api/v2/stats/prices/{item_id}.json
-```
+| Servidor | Região | API |
+|----------|--------|-----|
+| **Americas** | Brasil, EUA, etc | `west.albion-online-data.com` |
+| **Europe** | Europa | `europe.albion-online-data.com` |
+| **Asia** | Ásia | `east.albion-online-data.com` |
 
-### Cidades Consultadas
-Caerleon, Bridgewatch, Martlock, Thetford, Fort Sterling, Lymhurst
-
-### Cache
-- TTL de 5 minutos para evitar rate limits
-- Preços são média de venda das cidades
-
-### Limitações
-- Preços são **estimativas** baseadas no mercado
-- Alguns itens podem não ter preço disponível
-- Dados dependem de jogadores rodando o Albion Data Client
+A preferência é salva automaticamente no navegador.
 
 ---
 
-## 🖼️ API de Imagens
+## 💬 Discord Webhook
 
-Imagens carregadas da **API oficial do Albion**:
+Configure notificações automáticas para o Discord:
 
-```
-https://render.albiononline.com/v1/item/{ITEM_ID}.png?size={SIZE}
-```
+1. Crie um webhook no seu servidor Discord (Configurações do Canal → Integrações → Webhooks)
+2. No Dashboard, clique no ícone do Discord na header
+3. Cole a URL do webhook
+4. Clique em **Testar** para verificar
+5. Clique em **Salvar**
 
-| Parâmetro | Descrição | Valores |
-|-----------|-----------|---------|
-| `ITEM_ID` | ID do item | Ex: `T8_BAG@3` |
-| `size` | Tamanho em px | 1-217 |
-| `quality` | Qualidade | 1-5 |
+**Itens enviados automaticamente:**
+- Itens marcados como **raros**
+- Itens com valor estimado **acima de 100k silver**
 
 ---
 
@@ -212,62 +204,44 @@ https://render.albiononline.com/v1/item/{ITEM_ID}.png?size={SIZE}
 ao-loot-logger/
 │
 ├── 📂 core/                    # Captura e parsing
-│   ├── buffer_reader.py        # Leitor de buffer binário
-│   ├── photon_decoder.py       # Decoder protocolo Photon
-│   ├── protocol16.py           # Implementação Protocol16
-│   └── sniffer.py              # Captura de pacotes
+│   ├── buffer_reader.py
+│   ├── photon_decoder.py
+│   ├── protocol16.py
+│   └── sniffer.py
 │
 ├── 📂 dashboard/               # Dashboard Web
 │   ├── server.py               # Flask + SocketIO
 │   ├── templates/
-│   │   └── index.html          # Template principal
-│   └── static/                 # Assets estáticos
+│   │   └── index.html
+│   └── static/
+│       ├── css/
+│       │   ├── base.css        # Reset, variáveis
+│       │   ├── splash.css      # Splash screen
+│       │   ├── layout.css      # Header, sidebar
+│       │   ├── table.css       # Tabela de loots
+│       │   └── components.css  # Botões, modal, etc
+│       └── js/
+│           ├── app.js          # Alpine.js + lógica
+│           └── splash.js       # Controller splash
 │
 ├── 📂 gui/                     # Interface Desktop
-│   ├── app.py                  # App principal
-│   ├── themes.py               # Temas e cores
-│   ├── splash_screen.py        # Splash screen
-│   └── components/             # Componentes UI
-│       ├── filter_panel.py
-│       ├── header.py
-│       ├── loot_table.py
-│       ├── settings_modal.py
-│       └── status_bar.py
+│   ├── app.py
+│   ├── themes.py
+│   ├── splash_screen.py
+│   └── components/
 │
 ├── 📂 handlers/                # Event handlers
-│   ├── data_handler.py         # Handler principal
-│   ├── events/                 # Eventos do jogo
-│   ├── requests/               # Requisições
-│   └── responses/              # Respostas
-│
 ├── 📂 models/                  # Modelos de dados
-│   ├── container.py
-│   ├── loot_event.py
-│   └── player.py
-│
 ├── 📂 services/                # Serviços
-│   ├── config_service.py       # Configurações
-│   ├── discord_service.py      # Discord webhook
-│   ├── items_service.py        # Serviço de itens
-│   └── tier_service.py         # Tiers e raridade
-│
 ├── 📂 storage/                 # Armazenamento
-│   ├── containers_storage.py
-│   ├── loots_storage.py
-│   ├── memory_storage.py
-│   └── players_storage.py
-│
 ├── 📂 assets/                  # Recursos
-│   ├── icon.ico
-│   └── logo.png
 │
 ├── main.py                     # Entry CLI
 ├── main_gui.py                 # Entry GUI
 ├── main_web.py                 # Entry Web
 ├── build.py                    # Script de build
-├── build.bat                   # Build Windows
-├── requirements.txt            # Dependências
-└── README.md                   # Documentação
+├── requirements.txt
+└── README.md
 ```
 
 ---
@@ -281,59 +255,20 @@ ao-loot-logger/
 
 ### Via Python
 ```bash
+# Instalar dependências
+pip install -r requirements.txt
+
+# Buildar Dashboard
+python build.py web
+
+# Buildar GUI
+python build.py gui
+
 # Buildar ambos
 python build.py
-
-# Ou individualmente
-python build.py gui   # LootLogger-GUI.exe
-python build.py web   # LootLogger-Dashboard.exe
 ```
 
-### Manualmente (PyInstaller)
-
-```bash
-# Dashboard
-pyinstaller --name=LootLogger-Dashboard --onefile --console ^
-    --icon=assets/icon.ico ^
-    --add-data "dashboard;dashboard" ^
-    --add-data "core;core" ^
-    --hidden-import=flask --hidden-import=flask_socketio ^
-    --hidden-import=scapy.all main_web.py
-
-# GUI
-pyinstaller --name=LootLogger-GUI --onefile --windowed ^
-    --icon=assets/icon.ico ^
-    --add-data "gui;gui" ^
-    --add-data "core;core" ^
-    --hidden-import=customtkinter ^
-    --hidden-import=scapy.all main_gui.py
-```
-
-Executáveis gerados em `dist/` e copiados para `release/`.
-
----
-
-## ⚙️ Configuração
-
-### Discord Webhook
-
-1. Crie um webhook no Discord (Configurações do Canal → Integrações)
-2. Na GUI: Configurações → Discord → Cole a URL
-3. Configure tier mínimo para notificações
-4. Teste e salve
-
-### Arquivo de Config
-
-Localização: `%APPDATA%/LootLogger/config.json`
-
-```json
-{
-  "discord_webhook": "https://discord.com/api/webhooks/...",
-  "min_tier": 6,
-  "notify_rare_only": false,
-  "language": "pt-br"
-}
-```
+Executáveis gerados em `release/`.
 
 ---
 
@@ -341,56 +276,50 @@ Localização: `%APPDATA%/LootLogger/config.json`
 
 ```txt
 # Core
-scapy>=2.5.0              # Captura de pacotes
-requests>=2.31.0          # HTTP requests
+scapy>=2.5.0
+requests>=2.31.0
 
 # GUI
-customtkinter>=5.2.0      # Interface moderna
-pillow>=10.0.0            # Manipulação de imagens
+customtkinter>=5.2.0
+pillow>=10.0.0
 
 # Dashboard
-flask>=3.0.0              # Servidor web
-flask-socketio>=5.3.0     # WebSocket
-python-socketio>=5.10.0   # Cliente SocketIO
+flask>=3.0.0
+flask-socketio>=5.3.0
+python-socketio>=5.10.0
 
 # Build
-pyinstaller>=6.0.0        # Geração de .exe
+pyinstaller>=6.0.0
 ```
 
 ---
 
 ## 📝 Changelog
 
-### v3.1 (Atual)
-- ✅ Ícone de silver melhorado (moeda detalhada com gradiente)
-- ✅ Valor total recalcula com filtros ativos
-- ✅ Fix: Preços atualizam em tempo real (sem precisar F5)
-- ✅ Animação de loading ("...") enquanto busca preço
+### v3.2 (Atual)
+- ✅ Seletor de servidor (Americas/Europe/Asia)
+- ✅ Discord Webhook integrado no Dashboard
+- ✅ Cores dos tiers nos filtros (T4 azul, T5 vermelho, etc)
+- ✅ Cores na tabela: tier base + borda de encantamento
+- ✅ Skip splash ao dar F5 (sessionStorage)
+- ✅ Fix reatividade Alpine.js nos preços
+- ✅ Preços atualizam em tempo real
+
+### v3.1
+- ✅ Ícone de silver melhorado
+- ✅ Valor total recalcula com filtros
+- ✅ Fix preços em tempo real
 
 ### v3.0
-- ✅ Splash screen moderna com animações (grid, partículas, orbs)
-- ✅ Estimativa de valor em Silver via Albion Data Project
+- ✅ Splash screen moderna
+- ✅ Estimativa de valor em Silver
 - ✅ Coluna "Valor" na tabela
-- ✅ Stat card "Valor Estimado" da sessão
-- ✅ Progress bar animada no splash
-
-### v2.3
-- ✅ Imagens dos itens via API oficial do Albion
-- ✅ Tooltips com preview ampliado
-- ✅ Odômetro animado nos stats
-- ✅ Efeitos de hover modernos
-
-### v2.2
-- ✅ Cores de encantamento (.1 verde, .2 azul, .3 roxo, .4 dourado)
-- ✅ Splash screen inicial
-- ✅ Remoção de emojis das categorias
 
 ### v2.0
 - ✅ Dashboard Web com Flask + SocketIO
-- ✅ Sidebar com filtros avançados
-- ✅ Timer de sessão
-- ✅ Destaque para itens raros
-- ✅ Sistema de build para .exe
+- ✅ Imagens dos itens via API oficial
+- ✅ Filtros avançados
+- ✅ Cores de encantamento
 
 ### v1.0
 - ✅ GUI Desktop com CustomTkinter

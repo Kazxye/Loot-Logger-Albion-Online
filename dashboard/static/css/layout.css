@@ -45,12 +45,12 @@
 .sidebar-logo-icon {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+    background: var(--theme-gradient);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+    box-shadow: 0 4px 12px var(--theme-glow-subtle);
 }
 
 .sidebar-logo-icon svg {

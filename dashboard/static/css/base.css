@@ -9,9 +9,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ========================================
-   CSS VARIABLES
+   THEME: ROYAL PURPLE (Default)
    ======================================== */
-:root {
+:root, [data-theme="purple"] {
     /* Primary (Purple) */
     --primary-50: #faf5ff;
     --primary-100: #f3e8ff;
@@ -50,11 +50,67 @@
     
     /* Tier Colors */
     --tier-4: #60a5fa;
-    --tier-5: #f59e0b;
+    --tier-5: #ef4444;
     --tier-6: #f97316;
-    --tier-7: #ef4444;
-    --tier-8: #a855f7;
+    --tier-7: #eab308;
+    --tier-8: #ffffff;
     
+    /* Theme specific */
+    --theme-glow: rgba(168, 85, 247, 0.3);
+    --theme-glow-subtle: rgba(168, 85, 247, 0.1);
+    --theme-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+}
+
+/* ========================================
+   THEME: OUTLANDS ORANGE
+   ======================================== */
+[data-theme="outlands"] {
+    /* Primary (Orange) */
+    --primary-50: #fff7ed;
+    --primary-100: #ffedd5;
+    --primary-200: #fed7aa;
+    --primary-300: #fdba74;
+    --primary-400: #fb923c;
+    --primary-500: #e85a1b;
+    --primary-600: #c2410c;
+    --primary-700: #9a3412;
+    --primary-800: #7c2d12;
+    --primary-900: #431407;
+    
+    /* Dark Theme - Warmer blacks */
+    --dark-bg: #080808;
+    --dark-card: #0f0e0c;
+    --dark-elevated: #161412;
+    --dark-border: #2a2520;
+    --dark-100: #2a2520;
+    --dark-200: #3d3530;
+    --dark-300: #524a42;
+    --dark-400: #78716c;
+    --dark-500: #a8a29e;
+    --dark-600: #d6d3d1;
+    
+    /* Status Colors - Adjusted */
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --error: #dc2626;
+    --info: #0ea5e9;
+    
+    /* Enchant Colors */
+    --enchant-1: #22c55e;
+    --enchant-2: #0ea5e9;
+    --enchant-3: #e85a1b;
+    --enchant-4: #f59e0b;
+    
+    /* Theme specific */
+    --theme-glow: rgba(232, 90, 27, 0.4);
+    --theme-glow-subtle: rgba(232, 90, 27, 0.15);
+    --theme-gradient: linear-gradient(135deg, #e85a1b 0%, #f59e0b 100%);
+}
+
+/* ========================================
+   SPACING & RADIUS (constant)
+   ======================================== */
+:root {
     /* Spacing */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
@@ -74,6 +130,7 @@
     --transition-fast: 0.15s ease;
     --transition-base: 0.2s ease;
     --transition-slow: 0.3s ease;
+    --transition-theme: 0.4s ease;
 }
 
 /* ========================================
@@ -102,6 +159,7 @@ body {
     color: var(--dark-600);
     min-height: 100vh;
     line-height: 1.5;
+    transition: background-color var(--transition-theme), color var(--transition-theme);
 }
 
 /* ========================================
@@ -131,6 +189,7 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb {
     background: var(--dark-200);
     border-radius: 3px;
+    transition: background var(--transition-theme);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -147,7 +206,7 @@ h1, h2, h3, h4, h5, h6 {
    UTILITY CLASSES
    ======================================== */
 .gradient-text {
-    background: linear-gradient(135deg, var(--primary-500) 0%, #6366f1 100%);
+    background: var(--theme-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -197,14 +256,14 @@ input[type="search"] {
     color: var(--dark-600);
     border-radius: var(--radius-lg);
     padding: 0.5rem 1rem;
-    transition: all var(--transition-base);
+    transition: all var(--transition-base), background-color var(--transition-theme);
 }
 
 input[type="text"]:focus,
 input[type="search"]:focus {
     outline: none;
     border-color: var(--primary-500);
-    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+    box-shadow: 0 0 0 3px var(--theme-glow-subtle);
 }
 
 /* ========================================
@@ -213,4 +272,20 @@ input[type="search"]:focus {
 ::selection {
     background: var(--primary-500);
     color: white;
+}
+
+/* ========================================
+   THEME TRANSITIONS
+   ======================================== */
+.sidebar,
+.header,
+.stat-card,
+.table-container,
+.modal,
+.footer,
+.sidebar-logo-icon,
+.player-avatar {
+    transition: background-color var(--transition-theme), 
+                border-color var(--transition-theme),
+                box-shadow var(--transition-theme);
 }

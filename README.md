@@ -4,7 +4,7 @@
 
 <br/>
 
-![Version](https://img.shields.io/badge/version-3.2-a855f7.svg?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-3.3-e85a1b.svg?style=for-the-badge)
 ![Python](https://img.shields.io/badge/python-3.10+-3776ab.svg?style=for-the-badge&logo=python&logoColor=white)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6.svg?style=for-the-badge&logo=windows&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-22c55e.svg?style=for-the-badge)
@@ -37,11 +37,12 @@ O **Loot Logger** é uma ferramenta open-source que captura pacotes de rede do A
 
 ## ✨ Features
 
-### 🌐 Dashboard Web (v3.2)
+### 🌐 Dashboard Web (v3.3)
 
 | Feature | Descrição |
 |---------|-----------|
 | **Tempo Real** | Atualização instantânea via WebSocket |
+| **2 Temas** | Royal Purple 💜 e Outlands Orange 🔥 |
 | **Imagens dos Itens** | Carregadas da API oficial do Albion |
 | **Estimativa de Silver** | Preços via Albion Data Project API |
 | **Seletor de Servidor** | Americas, Europe, Asia |
@@ -77,6 +78,24 @@ O **Loot Logger** é uma ferramenta open-source que captura pacotes de rede do A
 │  🕐 Horário       │ 14:32:15                            │
 └─────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 🎨 Temas
+
+O Dashboard possui 2 temas que podem ser alternados pelo botão na header:
+
+### 💜 Royal Purple (Padrão)
+- Roxo como cor primária
+- Pretos frios com tom azulado
+- Visual elegante e moderno
+
+### 🔥 Outlands Orange
+- Laranja vibrante como cor primária
+- Pretos quentes com tom marrom
+- Inspirado nas Outlands/Red Zones do Albion
+
+A preferência é salva automaticamente no navegador.
 
 ---
 
@@ -296,7 +315,13 @@ pyinstaller>=6.0.0
 
 ## 📝 Changelog
 
-### v3.2 (Atual)
+### v3.3 (Atual)
+- ✅ Sistema de temas (Royal Purple e Outlands Orange)
+- ✅ Botão de troca de tema na header
+- ✅ Transições suaves entre temas
+- ✅ Cores quentes no tema Outlands
+
+### v3.2
 - ✅ Seletor de servidor (Americas/Europe/Asia)
 - ✅ Discord Webhook integrado no Dashboard
 - ✅ Cores dos tiers nos filtros (T4 azul, T5 vermelho, etc)

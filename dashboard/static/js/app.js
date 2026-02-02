@@ -61,6 +61,13 @@ function dashboard() {
         discordTesting: false,
         discordTestResult: null,
         
+        // Theme
+        themes: [
+            { id: 'purple', name: 'Royal Purple', icon: 'palette' },
+            { id: 'outlands', name: 'Outlands Orange', icon: 'paintbrush' }
+        ],
+        currentTheme: 'purple',
+        
         // Price cache
         priceCache: {},
         
@@ -177,11 +184,37 @@ function dashboard() {
             if (savedWebhook) {
                 this.discordWebhook = savedWebhook;
             }
+            
+            // Load theme preference
+            const savedTheme = localStorage.getItem('lootlogger_theme');
+            if (savedTheme && this.themes.find(t => t.id === savedTheme)) {
+                this.currentTheme = savedTheme;
+            }
+            
+            // Apply theme to document
+            this.applyTheme(this.currentTheme);
         },
         
         saveSettings() {
             localStorage.setItem('lootlogger_server', this.selectedServer);
             localStorage.setItem('lootlogger_webhook', this.discordWebhook);
+            localStorage.setItem('lootlogger_theme', this.currentTheme);
+        },
+        
+        // ========================================
+        // THEME MANAGEMENT
+        // ========================================
+        
+        setTheme(themeId) {
+            if (!this.themes.find(t => t.id === themeId)) return;
+            
+            this.currentTheme = themeId;
+            this.applyTheme(themeId);
+            this.saveSettings();
+        },
+        
+        applyTheme(themeId) {
+            document.documentElement.setAttribute('data-theme', themeId);
         },
         
         changeServer(serverId) {

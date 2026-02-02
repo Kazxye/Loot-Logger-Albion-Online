@@ -205,6 +205,81 @@
 }
 
 /* ========================================
+   THEME SWITCHER
+   ======================================== */
+.theme-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: var(--dark-elevated);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-lg);
+    padding: 0.25rem;
+}
+
+.theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.theme-btn:hover {
+    background: var(--dark-100);
+}
+
+.theme-btn.active {
+    background: var(--primary-500);
+    box-shadow: 0 2px 8px var(--theme-glow);
+}
+
+.theme-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: all var(--transition-base);
+}
+
+.theme-btn:not(.active) svg {
+    color: var(--dark-400);
+}
+
+.theme-btn.active svg {
+    color: white;
+}
+
+/* Theme icons */
+.theme-btn[data-theme="purple"] svg {
+    color: var(--dark-400);
+}
+
+.theme-btn[data-theme="purple"].active svg {
+    color: white;
+}
+
+.theme-btn[data-theme="purple"]:not(.active):hover svg {
+    color: #a855f7;
+}
+
+.theme-btn[data-theme="outlands"] svg {
+    color: var(--dark-400);
+}
+
+.theme-btn[data-theme="outlands"].active svg {
+    color: white;
+}
+
+.theme-btn[data-theme="outlands"]:not(.active):hover svg {
+    color: #e85a1b;
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
